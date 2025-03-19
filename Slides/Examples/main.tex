@@ -1,0 +1,378 @@
+\documentclass{beamer}
+
+\input{settings.tex}
+
+
+\title{Examples}
+\subtitle{Computational Intelligence, lecture ??}
+\author{by Sergei Savin}
+\centering
+\date{\mydate}
+
+
+
+\begin{document}
+\maketitle
+
+
+\begin{frame}{Content}
+
+\begin{itemize}
+\item  Converting State-Space to ODE
+\end{itemize}
+
+\end{frame}
+
+
+
+
+\begin{frame}{Inverse Dynamics, 1}
+	%\framesubtitle{How do we know the state?}
+	\begin{flushleft}
+		
+		Consider a dynamical system:
+		%
+		\begin{equation}
+			\bo{H} \ddot{\bo{q}} + \bo{C}\dot{\bo{q}} + \bo{g} = \bo{B}\bo{u}
+		\end{equation}		
+		
+		\textbf{Task 1}: 
+		For the current state $\bo{q}$, $\dot{\bo{q}}$ find such $\bo{u}$ (if it exists) that $\ddot{\bo{q}} = \bo{a}$.
+		
+		\bigskip
+		
+		\textbf{Solution}. The solution will exist if the vector $\bo{r} = \bo{H} \bo{a} + \bo{C}\dot{\bo{q}} + \bo{g} $ lies in the column space on $\bo{B}$. The condition for the vector to be in the column space of $\bo{B}$ is:
+		%
+		\begin{equation}
+			(\bo{I} - \bo{B}\bo{B}^+)\bo{r} = 0
+		\end{equation}		
+		%
+		If the solution exists, the it takes form:
+		%
+		\begin{equation}
+			\bo{u} = \bo{B}^+ (\bo{H} \bo{a} + \bo{C}\dot{\bo{q}} + \bo{g} )
+		\end{equation}		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Inverse Dynamics, 2}
+	%\framesubtitle{How do we know the state?}
+	\begin{flushleft}
+		
+		\textbf{Task 2}: 
+		For the current state $\bo{q}$, $\dot{\bo{q}}$ find if there exist multiple controls $\bo{u}$ that make $\ddot{\bo{q}} = \bo{a}$. If yes, find all of them.
+		
+		\bigskip
+		
+		\textbf{Solution}. If $(\bo{I} - \bo{B}\bo{B}^+)\bo{r} = 0$ then at least one solution to the ID exists. Multiple solutions will exist iff $\bo{B}$ has a non-trivial null space:
+		%
+		\begin{equation}
+			\text{dim}(\text{null}(\bo{B})) = k > 0
+		\end{equation}		
+		%
+		If the null space of $\bo{B}$ is non-trivial, then all solutions to the ID take form:
+		%
+		\begin{align}
+			\bo{u} = \bo{B}^+ (\bo{H} \bo{a} + \bo{C}\dot{\bo{q}} + \bo{g} ) + 
+			\bo{N}\bo{v}, \ \ \ \forall \bo{v} \in \R^k
+			\\
+			\bo{N} = \text{null}(\bo{B})
+		\end{align}		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Priority control input, 1}
+	%\framesubtitle{How do we know the state?}
+	\begin{flushleft}
+		
+		
+		Consider a system with two inputs $\bo{u}_1$ and $\bo{u}_2$:
+		%
+		\begin{equation}
+			\bo{H} \ddot{\bo{q}} + \bo{C}\dot{\bo{q}} + \bo{g} = \bo{B}_1\bo{u}_1 + \bo{B}_2\bo{u}_2
+		\end{equation}		
+		
+		We would like to solve inverse dynamics without using $\bo{u}_2$ unless we have to.
+		
+		\textbf{Task 1}:  Solve inverse dynamics - for the current state $\bo{q}$, $\dot{\bo{q}}$ find such $\bo{u}_1$ and $\bo{u}_2$ (if it exists) that $\ddot{\bo{q}} = \bo{a}$.
+		
+		First we check if such pair $(\bo{u}_1, \ \bo{u}_2)$ that $\ddot{\bo{q}} = \bo{a}$ exists. We re-write the dynamics as:
+		%
+		\begin{equation}
+			\bo{r} = 
+			\begin{bmatrix}
+				\bo{B}_1 & \bo{B}_2
+			\end{bmatrix}
+			\begin{bmatrix}
+			\bo{u}_1 \\ \bo{u}_2
+			\end{bmatrix}
+		\end{equation}		
+		
+		with that, we find the criterion for the existence of the ID solution:
+		%
+		\begin{equation}
+			\left
+			(\bo{I} - \begin{bmatrix}
+				\bo{B}_1 & \bo{B}_2
+			\end{bmatrix}
+			\begin{bmatrix}
+				\bo{B}_1 & \bo{B}_2
+			\end{bmatrix}^+
+			\right) \bo{r} 
+		= 0
+		\end{equation}		
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Priority control input, 2}
+	%\framesubtitle{How do we know the state?}
+	\begin{flushleft}
+		
+		We solve the following optimization problem:
+		%
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\bo{u}_1, \bo{u}_2}{\text{minimize}}
+				& & \frac{1}{2} \bo{u}_2\T \bo{u}_2, \\
+				& \text{subject to}
+				& & \bo{r} = \bo{B}_1\bo{u}_1 + \bo{B}_2\bo{u}_2
+			\end{aligned}
+		\end{equation}
+		
+		We find Lagrangian $L = \frac{1}{2} \bo{u}_2\T \bo{u}_2 + \lambda\T (\bo{B}_1\bo{u}_1 + \bo{B}_2\bo{u}_2 - \bo{r})$.
+		
+		Partial derivatives of $L$ should be zero at an extremum point:
+		%
+		\begin{align}
+			\frac{\partial L}{\partial \bo{u}_1} &=
+			\lambda\T \bo{B}_1 = 0
+			\\
+			\frac{\partial L}{\partial \bo{u}_2} &=
+			\bo{u}_2\T +
+			\lambda\T \bo{B}_2 = 0
+			\\
+			\frac{\partial L}{\partial \lambda} &=
+			\bo{B}_1\bo{u}_1 + \bo{B}_2\bo{u}_2 - \bo{r} = 0
+		\end{align}
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Priority control input, 3}
+	%\framesubtitle{How do we know the state?}
+	\begin{flushleft}
+		
+		This is the same as:
+		%
+		\begin{equation}
+			\begin{bmatrix}
+				\bo{B}_1 & \bo{B}_2 & 0 \\
+				0 & 0 & \bo{B}_1\T \\
+				0 & \bo{I} & \bo{B}_2\T
+			\end{bmatrix}
+			\begin{bmatrix}
+			\bo{u}_1  \\
+			\bo{u}_2  \\
+			\lambda 
+			\end{bmatrix}
+			=
+			\begin{bmatrix}
+			\bo{r} \\
+			0  \\
+			0 
+			\end{bmatrix}
+		\end{equation}
+		
+		We solve this linear system to find the desired control.
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+
+
+
+\begin{frame}{State Space}
+	%\framesubtitle{How do we know the state?}
+	\begin{flushleft}
+		
+		Consider a state-space representation of a dynamical system:
+		
+		\begin{equation}
+			\begin{cases}
+				\dot{\bo{x}} = \bo{A}\bo{x}+\bo{B}\bo{u} 
+				\\
+				\bo{y} = \bo{C}\bo{x}
+			\end{cases}
+		\end{equation}
+		
+		We can introduce a change of variables $\bo{x} = \bo{T}\bo{z}$ where $\text{det}(\bo{T}) \neq 0$:
+		
+		\begin{equation}
+			\begin{cases}
+				\dot{\bo{z}} = \bo{T}^{-1}\bo{A}\bo{T} \bo{z}+\bo{T}^{-1}\bo{B}\bo{u} 
+				\\
+				\bo{y} = \bo{C}\bo{T}\bo{z}
+			\end{cases}
+		\end{equation}
+		
+		The two systems are equivalent, with new matrices $\bar{\bo{A}} = \bo{T}^{-1}\bo{A}\bo{T}$, $\bar{\bo{B}} = \bo{T}^{-1}\bo{B}$ and $\bar{\bo{C}} = \bo{C}\bo{T}$.
+		
+	\end{flushleft}
+\end{frame}
+
+
+\begin{frame}{State Space to ODE}
+	%\framesubtitle{How do we know the state?}
+	\begin{flushleft}
+		
+		Given a state-space representation of the form:
+		%
+		\begin{equation}
+			\begin{cases}
+				\begin{bmatrix}
+					\dot x_1 \\ \dot x_2 \\  ... \\ \dot x_{n-1} \\ \dot x_n
+				\end{bmatrix}
+				\begin{bmatrix}
+					0 & 1 & ... & 0 & 0 \\
+					0 & 0& ... & 0 & 0 \\
+					... & ... & ... & ... & ...  \\
+					0 & 0& ... & 0 & 1 \\
+					a_1 & a_2 & ... & a_{n-1} & a_n 
+				\end{bmatrix}
+				\begin{bmatrix}
+					x_1 \\ x_2 \\  ... \\ x_{n-1} \\  x_n
+				\end{bmatrix}
+				+
+				\begin{bmatrix}
+					0 \\ 0 \\  ... \\ 0 \\  b_n
+				\end{bmatrix}
+				u
+				\\
+				y = 
+				\begin{bmatrix}
+					1 &0 &  ... &0 &  0
+				\end{bmatrix}
+				\begin{bmatrix}
+				x_1 \\ x_2 \\  ... \\ x_{n-1} \\  x_n
+				\end{bmatrix}
+			\end{cases}
+		\end{equation}
+		
+		We can re-write it in an ODE form:
+		%
+		\begin{equation}
+			y^{(n)} = a_1 y + a_2 \dot y + ... + a_n y^{(n-1)} + b_n u
+		\end{equation}
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+\begin{frame}{State Space to ODE, 1}
+	%\framesubtitle{How do we know the state?}
+	\begin{flushleft}
+		
+		As long as state-space system has matrices:
+		%
+		\begin{align}
+			\bar{\bo{A}} = 
+			\begin{bmatrix}
+				\bo{0}_{(n-1) \times 1} & \bo{I}_{(n-1) \times (n-1)} \\
+				\alpha & \beta\T
+			\end{bmatrix},
+			\ \ \
+			\bar{\bo{B}} = 
+			\begin{bmatrix}
+				\bo{0}_{(n-1) \times 1} \\
+				1
+			\end{bmatrix}
+		\end{align}
+		%
+		we can re-write it in an ODE form. 
+		
+		\bigskip
+		
+		We can formulate a task: given matrices $\bo{A}$ and $\bo{B}$ find such transformation $\bo{T} = 
+		\begin{bmatrix}
+			\bo{t}_1 & ... & \bo{t}_n
+		\end{bmatrix}$ 
+		that $\bar{\bo{A}} = \bo{T}^{-1}\bo{A}\bo{T}$, $\bar{\bo{B}} = \bo{T}^{-1}\bo{B}$.
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{State Space to ODE, 2}
+	%\framesubtitle{How do we know the state?}
+	\begin{flushleft}
+		
+		Consider the equality $\bar{\bo{B}} = \bo{T}^{-1}\bo{B}$. Since $ \bo{T}$ is full rank, we can re-write the equality:
+		%
+		\begin{align}
+			\bo{T}\bar{\bo{B}} = \bo{B}
+			\\
+			\bo{t}_n = \bo{B}
+		\end{align}
+		
+		Let us define $\bo{P} = 
+		\begin{bmatrix}
+			\bo{t}_1 & ... & \bo{t}_{n-1}
+		\end{bmatrix}$, thus giving us $\bo{T} = 
+		\begin{bmatrix}
+		\bo{P}& \bo{B}
+		\end{bmatrix}$.
+		
+		\bigskip
+		
+		Next, consider $\bar{\bo{A}} = \bo{T}^{-1}\bo{A}\bo{T}$:
+		%
+		\begin{align}
+			 \bo{T}\bar{\bo{A}} = \bo{A}\bo{T}
+			 \\
+			 \begin{bmatrix}
+				\alpha \bo{B} & (\bo{P} + \bo{B}\beta\T)
+			 \end{bmatrix}
+			 = 
+			 \bo{A}
+			 \begin{bmatrix}
+			 	\bo{P}& \bo{B}
+			 \end{bmatrix}
+		\end{align}
+		
+		
+		This is the solution to the posed problem. Note that we either \emph{choose a new output} $\bar{\bo{C}} = \bo{e}_1\T = [1 \ 0 \ ... \ 0]$ or original output is such that $\bo{C}\bo{T} = \bo{e}_1\T$.
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+
+\myqrframe
+
+
+\end{document}
