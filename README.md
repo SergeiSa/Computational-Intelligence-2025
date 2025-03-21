@@ -1,21 +1,21 @@
 # Slides:
-* Lecture 1 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/Introduction.pdf
-* Lecture 2 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/Subspaces.pdf
-* Lecture 3 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/OptimizationProblems_AnalyticSolutions.pdf
-* Lecture 4 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/ConvexProgramming_Domain.pdf
-* Lecture 5 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/Polytopes.pdf
-* Lecture 6 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/Linear_Programming.pdf
-* Lecture 7 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/QP.pdf
-* Lecture 8 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/SOCP.pdf
-* Lecture 9 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/SDP.pdf
-* Lecture 10 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/LMI_Control.pdf
-* Lecture 11 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/RobustOptimization.pdf
-* Lecture 12 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/MICP.pdf
-* Lecture 13 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/Dual_KKT.pdf
-* Lecture 14 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/InteriorPoint.pdf
+* Lecture 1 - https://github.com/SergeiSa/Computational-Intelligence-2025/blob/main/Slides/Introduction.pdf
+* Lecture 2 - https://github.com/SergeiSa/Computational-Intelligence-2025/blob/main/Slides/Subspaces.pdf
+* Lecture 3 - https://github.com/SergeiSa/Computational-Intelligence-2025/blob/main/Slides/OptimizationProblems_AnalyticSolutions.pdf
+* Lecture 4 - https://github.com/SergeiSa/Computational-Intelligence-2025/blob/main/Slides/ConvexProgramming_Domain.pdf
+* Lecture 5 - https://github.com/SergeiSa/Computational-Intelligence-2025/blob/main/Slides/Polytopes.pdf
+* Lecture 6 - https://github.com/SergeiSa/Computational-Intelligence-2025/blob/main/Slides/Linear_Programming.pdf
+* Lecture 7 - https://github.com/SergeiSa/Computational-Intelligence-2025/blob/main/Slides/QP.pdf
+* Lecture 8 - https://github.com/SergeiSa/Computational-Intelligence-2025/blob/main/Slides/SOCP.pdf
+* Lecture 9 - https://github.com/SergeiSa/Computational-Intelligence-2025/blob/main/Slides/SDP.pdf
+* Lecture 10 - https://github.com/SergeiSa/Computational-Intelligence-2025/blob/main/Slides/LMI_Control.pdf
+* Lecture 11 - https://github.com/SergeiSa/Computational-Intelligence-2025/blob/main/Slides/RobustOptimization.pdf
+* Lecture 12 - https://github.com/SergeiSa/Computational-Intelligence-2025/blob/main/Slides/MICP.pdf
+* Lecture 13 - https://github.com/SergeiSa/Computational-Intelligence-2025/blob/main/Slides/Dual_KKT.pdf
+* Lecture 14 - https://github.com/SergeiSa/Computational-Intelligence-2025/blob/main/Slides/InteriorPoint.pdf
 
-* Extra 1 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/Extra_SPP.pdf
-* Extra 2 - https://github.com/SergeiSa/Computational-Intelligence-2024/blob/main/Slides/MPC.pdf
+* Extra 1 - https://github.com/SergeiSa/Computational-Intelligence-2025/blob/main/Slides/Extra_SPP.pdf
+* Extra 2 - https://github.com/SergeiSa/Computational-Intelligence-2025/blob/main/Slides/MPC.pdf
 
 
 # Reference material
