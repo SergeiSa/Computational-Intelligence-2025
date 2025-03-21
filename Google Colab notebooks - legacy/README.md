@@ -1,1 +1,0 @@
-Here you can see practical exercises, we encourage you to use Google Colab to run the examples.

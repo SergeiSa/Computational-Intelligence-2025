@@ -531,7 +531,7 @@
 		
 		\bigskip
 		
-		Since $\bo{y}_c \in \text{col}(\bo{A})$, we can find such $\bo{x}$ that $\bo{A}\bo{x} = \bo{y}_c$; So, the problems is to minimize the residual $e = || \bo{y}_c - \bo{y} ||$ or equivalently $e =  || \bo{A}\bo{x} - \bo{y} ||$, which is least squares problem: $\bo{x} = \bo{A}^+ \bo{y}$. So:
+		Since $\bo{y}_c \in \text{col}(\bo{A})$, we can find such $\bo{x}$ that $\bo{A}\bo{x} = \bo{y}_c$; so, the problems is to minimize the residual $e = || \bo{y}_c - \bo{y} ||$ or equivalently $e =  || \bo{A}\bo{x} - \bo{y} ||$, which is least squares problem: $\bo{x} = \bo{A}^+ \bo{y}$. So:
 		
 		\begin{equation}
 			\bo{y}_c = \bo{A}\bo{A}^+ \bo{y} \in \text{col}(\bo{A})
@@ -554,7 +554,7 @@
 			\bo{x}_r = \bo{A}^+\bo{A} \bo{x} \in \text{row}(\bo{A})
 		\end{equation}
 		
-		You can think of this in the following terms: first we find output $\bo{A} \bo{x}$, then we find the smallest norm vector that produces this same output; this vector has to 1) have the same row space projection (because output is the same), 2) has zero null space projection. Hence it is the row space projector of $\bo{x}$.
+		You can think of this in the following terms: first we find output $\bo{A} \bo{x}$, then we find the smallest norm vector that produces this same output; this vector  1) has the same row space projection (because output is the same), 2) has zero null space projection. Hence it is the row space projector of $\bo{x}$.
 		
 		\bigskip
 		
