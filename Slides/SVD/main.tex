@@ -1,0 +1,566 @@
+\documentclass{beamer}
+
+\input{settings.tex}
+
+
+\title{SVD}
+\subtitle{Computational Intelligence, Lecture 3}
+\author{by Sergei Savin}
+\centering
+\date{\mydate}
+
+
+
+\begin{document}
+\maketitle
+
+
+
+
+
+\begin{frame}{Singular Value Decomposition}
+	% \framesubtitle{Local coordinates}
+	\begin{flushleft}
+		
+		Given $\bo{A} \in \R^{n, m}$ we can find its Singular Value Decomposition (SVD):
+		
+		\begin{equation}
+			\bo{A} = 
+			\begin{bmatrix}
+				\bo{C} & \bo{L}
+			\end{bmatrix}
+			\begin{bmatrix}
+				\bo{\Sigma} & \bo{0} \\
+				\bo{0} & \bo{0}
+			\end{bmatrix}
+			\begin{bmatrix}
+				\bo{R}^\top \\ \bo{N}^\top
+			\end{bmatrix}
+		\end{equation}
+		
+		\begin{equation}
+			\bo{A} = 
+			\bo{C} \bo{\Sigma} \bo{R}^\top
+		\end{equation}
+		
+		where $\bo{C}$, $\bo{L}$, $\bo{R}$ and $\bo{N}$ are column, left null, row and null space bases (orthonormal), $\bo{\Sigma}$ is the diagonal matrix of singular values. The singular values are positive and are sorted in the decreasing order.
+		
+		\bigskip
+
+		Rank of the matrix is computed as the size of $\bo{\Sigma}$. Note that numeric tolerance applies when deciding if the singular value is non-zero.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{SVD of a transpose}
+	% \framesubtitle{Local coordinates}
+	\begin{flushleft}
+		
+		Let us find SVD decomposition of a $\bo{A}^\top$:
+		
+		\begin{equation}
+			\bo{A}^\top = 
+			\begin{bmatrix}
+				\bo{C}_t & \bo{L}_t
+			\end{bmatrix}
+			\begin{bmatrix}
+				\bo{\Sigma}_t & \bo{0} \\
+				\bo{0} & \bo{0}
+			\end{bmatrix}
+			\begin{bmatrix}
+				\bo{R}_t^\top \\ \bo{N}_t^\top
+			\end{bmatrix}
+		\end{equation}
+		
+		Let us transpose it (remembering that transpose of a diagonal matrix the original matrix $\bo{\Sigma}_t^\top = \bo{\Sigma}_t$):
+		
+		
+		\begin{equation}
+			\bo{A} = 
+			\begin{bmatrix}
+				\bo{R}_t & \bo{N}_t
+			\end{bmatrix}
+			\begin{bmatrix}
+				\bo{\Sigma}_t & \bo{0} \\
+				\bo{0} & \bo{0}
+			\end{bmatrix}
+			\begin{bmatrix}
+				\bo{C}_t^\top \\ \bo{L}_t^\top
+			\end{bmatrix}
+		\end{equation}
+		
+		Thus we can see that the row space of the original matrix $\bo{A}$ is the column space of the transpose $\bo{A}^\top$. And the left null space of the original matrix $\bo{A}$ is the null space of the transpose $\bo{A}^\top$.
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Pseudoinverse via SVD, 1}
+	% \framesubtitle{Local coordinates}
+	\begin{flushleft}
+		
+		Let us compute least squares - minimum of $e = ||\bo{A}\bo{x} - \bo{y}||_2$. We find extremum:
+		%
+		\begin{align}
+			\frac{d}{d \bo{x}} \left( (\bo{A}\bo{x} - \bo{y})^\top(\bo{A}\bo{x} - \bo{y}) \right) 
+			= 0
+			\\
+			2\bo{A}^\top(\bo{A}\bo{x} - \bo{y}) = 0
+			\\
+			\bo{A}^\top\bo{A}\bo{x} = \bo{A}^\top\bo{y}
+		\end{align}
+		
+		We find SVD decomposition of $\bo{A} = \bo{C} \bo{\Sigma} \bo{R}^\top$:
+		%
+		\begin{align}
+			\bo{R}  \bo{\Sigma} \bo{C}\T   \bo{C} \bo{\Sigma} \bo{R}^\top \bo{x} = \bo{R}  \bo{\Sigma} \bo{C}\T  \bo{y}
+			\\
+			\bo{R}  \bo{\Sigma} \bo{\Sigma} \bo{R}^\top \bo{x} = \bo{R}  \bo{\Sigma} \bo{C}\T  \bo{y}
+		\end{align}
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+
+\begin{frame}{Pseudoinverse via SVD, 2}
+	% \framesubtitle{Local coordinates}
+	\begin{flushleft}
+		
+		Since both sides lie in the column space of $\bo{R}$, we can multiply by $\bo{R}\T$:
+		%
+		\begin{align}
+			\bo{R}\T\bo{R}  \bo{\Sigma} \bo{\Sigma} \bo{R}^\top \bo{x} = \bo{R}\T\bo{R}  \bo{\Sigma} \bo{C}\T  \bo{y}
+			\\
+			\bo{\Sigma} \bo{\Sigma} \bo{R}^\top \bo{x} = \bo{\Sigma} \bo{C}\T  \bo{y}
+			\\
+			\bo{R}^\top \bo{x} = \bo{\Sigma}^{-1} \bo{C}\T  \bo{y}
+		\end{align}
+		
+		Since $\bo{R}$ and $\bo{N}$ are orthogonal compliments, we can represent $\bo{x}$ as its decomposition: $\bo{x} = \bo{N}\bo{z} + \bo{R}\zeta$:
+		%
+		\begin{align}
+			\bo{R}^\top \bo{N}\bo{z} + \bo{R}^\top \bo{R}\zeta = \bo{\Sigma}^{-1} \bo{C}\T  \bo{y}
+			\\
+			\zeta = \bo{\Sigma}^{-1} \bo{C}\T  \bo{y}
+		\end{align}
+	
+		With that we can compute $\bo{x}$:
+		%
+		\begin{align}
+			\bo{x} = \bo{N}\bo{z} + \bo{R}\bo{\Sigma}^{-1} \bo{C}\T  \bo{y}
+		\end{align}
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Pseudoinverse via SVD, 3}
+	% \framesubtitle{Local coordinates}
+	\begin{flushleft}
+		
+		Expression $\bo{x} = \bo{N}\bo{z} + \bo{R}\bo{\Sigma}^{-1} \bo{C}\T  \bo{y}$ gives us all least-residual solutions.
+		
+		\bigskip
+		
+		Since $\bo{N}\bo{z}$ is orthogonal to $\bo{R}\bo{\Sigma}^{-1} \bo{C}\T  \bo{y}$, we conclude that least-norm solution is given as:
+		%
+		\begin{align}
+			\bo{x} = \bo{R}\bo{\Sigma}^{-1} \bo{C}\T  \bo{y}
+		\end{align}
+		
+		With that we can define pseudoinverse matrix $\bo{A}^+$ as:
+		
+		\begin{equation}
+			\bo{A}^+ = 
+			\bo{R} \bo{\Sigma}^{-1} \bo{C}^\top
+		\end{equation}		
+		
+		Note that this proves that $\bo{A}^+$ lies in the row space of $\bo{A}$.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+
+
+
+
+\begin{frame}{Projectors (1)}
+	% \framesubtitle{Local coordinates}
+	\begin{flushleft}
+		
+		Let us prove that $\bo{A}\bo{A}^+$ is equivalent to $\bo{C}\bo{C}^\top$:
+		
+		\begin{equation}
+			\bo{A} \bo{A}^+ = 
+			\bo{C} \bo{\Sigma} \bo{R}^\top 
+			\bo{R} \bo{\Sigma}^{-1} \bo{C}^\top
+		\end{equation}
+		
+		
+		\begin{equation}
+			\bo{A} \bo{A}^+ = 
+			\bo{C} \bo{\Sigma} \bo{\Sigma}^{-1} \bo{C}^\top
+		\end{equation}
+		
+		\begin{equation}
+			\bo{A} \bo{A}^+ = 
+			\bo{C} \bo{C}^\top
+		\end{equation}
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Projectors (2)}
+	% \framesubtitle{Local coordinates}
+	\begin{flushleft}
+		
+		Let us prove that $\bo{A}^+\bo{A}$ is equivalent to $\bo{R}\bo{R}^\top$:
+		
+		\begin{equation}
+			\bo{A}^+ \bo{A} = 
+			\bo{R} \bo{\Sigma}^{-1} \bo{C}^\top
+			\bo{C} \bo{\Sigma} \bo{R}^\top 
+		\end{equation}
+		
+		\begin{equation}
+			\bo{A}^+ \bo{A} = 
+			\bo{R} \bo{\Sigma}^{-1} \bo{\Sigma} \bo{R}^\top 
+		\end{equation}		
+		
+		\begin{equation}
+			\bo{A}^+ \bo{A} = 
+			\bo{R} \bo{R}^\top 
+		\end{equation}			
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+
+\begin{frame}{Projectors (3)}
+	% \framesubtitle{Local coordinates}
+	\begin{flushleft}
+		
+		Let us denote $\bo{P} = \bo{A}\bo{A}^+$. 
+		Let's prove that $\bo{P}\bo{P} = \bo{P}$:
+		
+		\begin{align}
+			\bo{A} \bo{A}^+ \bo{A} \bo{A}^+ &= 
+			\bo{C} \bo{\Sigma} \bo{R}^\top 
+			\bo{R} \bo{\Sigma}^{-1} \bo{C}^\top 
+			\bo{C} \bo{\Sigma} \bo{R}^\top 
+			\bo{R} \bo{\Sigma}^{-1} \bo{C}^\top
+			\\
+			%
+			\bo{A} \bo{A}^+ \bo{A} \bo{A}^+ &= 
+			\bo{C} \bo{\Sigma} \bo{\Sigma}^{-1}\bo{\Sigma} \bo{\Sigma}^{-1} \bo{C}^\top
+			\\
+			%
+			\bo{A} \bo{A}^+ \bo{A} \bo{A}^+ &= 
+			\bo{C} \bo{C}^\top
+			\\
+			%
+			\bo{A} \bo{A}^+ \bo{A} \bo{A}^+ &= 
+			\bo{A} \bo{A}^+
+		\end{align}
+		
+		
+		The same is true for $\bo{P} = \bo{A}^+\bo{A}$: we can prove that $\bo{A}^+\bo{A} \bo{A}^+\bo{A} = \bo{A}^+\bo{A}$.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Transpose of a projector}
+	% \framesubtitle{Local coordinates}
+	\begin{flushleft}
+		
+		Let's prove that $\bo{P}\T = \bo{P}$. 
+		
+		Again, we use the fact that $\bo{P} = \bo{C}\bo{C}\T$.
+		
+		\begin{align}
+			\bo{P}\T = (\bo{C}\bo{C}\T)\T=\bo{C}\bo{C}\T=\bo{P}. \qed
+		\end{align}
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Pseudoinverse of a projector}
+	\begin{flushleft}
+		
+		Let's prove that $\bo{P}^+ = \bo{P}$. 
+		
+		\bigskip
+		
+		First, we find a basis in the linear space where $\bo{P}$ projects onto: $\bo{C} = \text{col}(\bo{P})$, therefore $\bo{P} = \bo{C}\bo{C}\T = \bo{C}\bo{I}\bo{C}\T$, which is an SVD decomposition of $\bo{P}$. But we know how to find a pseudoinverse of a linear operator, given its SVD decomposition:
+		%
+		\begin{align}
+			\bo{P} &= \bo{C}\bo{I}\bo{C}\T,
+			\\
+			\bo{P}^+ &= \bo{C}\bo{I}^{-1}\bo{C}\T,
+			\\
+			\bo{P}^+ &= \bo{C}\bo{C}\T,
+			\\
+			\bo{P}^+ &= \bo{P}. \ \qed
+		\end{align}
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Example 1, end-effector}
+	\begin{flushleft}
+		
+		Consider a 6 DOF manipulator described by joint coordinates $\bo{q}$,  with a end-effector whose position is given by vector $\bo{r} = \bo{r}(\bo{q})$. Find all movements that do not displace the end-effector, which are available to us at a configuration $\bo{q}_0$.
+		
+		\bigskip
+		
+		\emph{Solution.} We can find velocity of the end-effector 
+		
+		\begin{equation}
+			\bo{v} = \frac{d}{dt} \bo{r}(\bo{q}) = \frac{\partial \bo{r}}{\partial \bo{q}} \frac{\partial \bo{q}}{\partial t} = \bo{J} \dot{\bo{q}}
+		\end{equation}
+		
+		"Movements that do not displace the end-effector" describes joint velocities that do not produce end-effector velocities - in other words, all joint velocities in the null space of $\bo{J}$ :
+		
+		\begin{align}
+			\bo{N} &= \text{null} ( \bo{J} )
+			\\
+			 \dot{\bo{q}} &= \bo{N} \bo{z}, \ \forall \bo{z} \ \ \ \ \ \textcolor{mygray}{(answer)}
+		\end{align}
+		
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Example 2, singularity}
+	\begin{flushleft}
+		
+		Consider a 6 DOF manipulator described by joint coordinates $\bo{q}$,  with a end-effector whose position is given by the vector $\bo{r} = \bo{r}(\bo{q})$. Check if the configuration $\bo{q}_0$ puts the manipulator in such a singular position that the end effector lost one of its positional degrees of freedom.
+		
+		\bigskip
+		
+		\emph{Solution.} As before, $\bo{v} = \bo{J} \dot{\bo{q}}$.
+		
+		"the end effector lost one of its positional degrees of freedom" means that the space of possible velocities of the end-effector has dimensionality 2 or less. But since $\bo{v} = \bo{J} \dot{\bo{q}}$, it is enough to check the space of all posssible outputs of $\bo{J}$ :
+		
+		\begin{align}
+			 \text{orth} ( \bo{J} ) = 	\bo{C} \in \R^{3, k}
+			\\
+			\text{if} \ \ k < 3 \ \ \text{then the answer is YES, else NO}
+		\end{align}
+		
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Example 3, drop in DOF}
+	\begin{flushleft}
+		
+		Consider a 7 DOF manipulator described by joint coordinates $\bo{q}$, with an end-effector whose velocity is given by the expression $\bo{v} = \bo{J} \dot{\bo{q}}$ and whose angular velocity is given as $\bo{w} = \bo{J}_w \dot{\bo{q}}$. If we require that $\textcolor{myred}{\dot q_2  = \dot q_3}$, does the end-effector still have 6 DOF in the configuration $\bo{q}_0$?
+		
+		\bigskip
+		
+		\emph{Solution.} Consider new independent generalized velocities $\dot{\bo{g}}$ defined as:
+		
+		\begin{align}
+			\dot{\bo{q}}
+			=
+			\begin{bmatrix}
+				\dot q_1 \\ 	\textcolor{myred}{\dot q_2} \\ 	\textcolor{myred}{\dot q_3} \\ 	\dot q_4 \\ 	\dot q_5 \\ 	\dot q_6 \\ 	\dot q_7 
+			\end{bmatrix}
+			= 
+			\begin{bmatrix}
+			\dot g_1 \\ 
+			\textcolor{myred}{\dot g_2}	 \\ \textcolor{myred}{\dot g_2}	 \\ 	\dot g_3 \\ 		\dot g_4 \\ 	\dot g_5\\ 	\dot g_6
+			\end{bmatrix}
+			=
+			\begin{bmatrix}
+				1 & 0& 0& 0& 0& 0 \\
+				0 & 1& 0& 0& 0& 0 \\
+				0 & 1& 0& 0& 0& 0 \\
+				0 & 0& 1& 0& 0& 0 \\
+				0 & 0& 0& 1& 0& 0 \\
+				0 & 0& 0& 0& 1& 0 \\
+				0 & 0& 0& 0& 0& 1 \\
+			\end{bmatrix}
+			\begin{bmatrix}
+				\dot g_1 \\ 	\dot g_2 \\ 	\dot g_3 \\ 		\dot g_4 \\ 	\dot g_5\\ 	\dot g_6
+			\end{bmatrix} 
+			= 
+			\bo{M}\dot{\bo{g}}
+		\end{align}
+		
+		
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Example 3, drop in DOF}
+	\begin{flushleft}
+		
+		Since $\dot{\bo{q}} = \bo{M}\dot{\bo{g}}$ we can write:
+		
+		\begin{align}
+			\bo{v} = \bo{J} \dot{\bo{q}} = \bo{J} \bo{M}\dot{\bo{g}}
+			\\
+			\bo{w} = \bo{J}_w \dot{\bo{q}}= \bo{J}_w \bo{M}\dot{\bo{g}}
+		\end{align}
+		
+		In the matrix form:
+		
+		\begin{align}
+			\begin{bmatrix}
+					\bo{v} \\ \bo{w}
+			\end{bmatrix}
+			=
+			\begin{bmatrix}
+				\bo{J} \bo{M} \\ \bo{J}_w \bo{M}
+			\end{bmatrix}
+		\dot{\bo{g}}
+		\end{align}
+		
+		\begin{align}
+					\text{if} \ \ \ 
+					\text{dim}   \left(  \text{orth}\left( \begin{bmatrix}
+				\bo{J} \bo{M} \\ \bo{J}_w \bo{M}
+			\end{bmatrix} \right) \right)
+			= 6 \ \ \ \text{then the answer is YES}
+		\end{align}
+		
+
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Inverse Dynamics, 1}
+	%\framesubtitle{How do we know the state?}
+	\begin{flushleft}
+		
+		Consider a dynamical system:
+		%
+		\begin{equation}
+			\bo{H} \ddot{\bo{q}} + \bo{C}\dot{\bo{q}} + \bo{g} = \bo{B}\bo{u}
+		\end{equation}		
+		
+		\textbf{Task 1}: 
+		For the current state $\bo{q}$, $\dot{\bo{q}}$ find such $\bo{u}$ (if it exists) that $\ddot{\bo{q}} = \bo{a}$.
+		
+		\bigskip
+		
+		\textbf{Solution}. The solution will exist if the vector $\bo{r} = \bo{H} \bo{a} + \bo{C}\dot{\bo{q}} + \bo{g} $ lies in the column space on $\bo{B}$. The condition for the vector to be in the column space of $\bo{B}$ is:
+		%
+		\begin{equation}
+			(\bo{I} - \bo{B}\bo{B}^+)\bo{r} = 0
+		\end{equation}		
+		%
+		If the solution exists, the it takes form:
+		%
+		\begin{equation}
+			\bo{u} = \bo{B}^+ (\bo{H} \bo{a} + \bo{C}\dot{\bo{q}} + \bo{g} )
+		\end{equation}		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Inverse Dynamics, 2}
+	%\framesubtitle{How do we know the state?}
+	\begin{flushleft}
+		
+		\textbf{Task 2}: 
+		For the current state $\bo{q}$, $\dot{\bo{q}}$ find if there exist multiple controls $\bo{u}$ that make $\ddot{\bo{q}} = \bo{a}$. If yes, find all of them.
+		
+		\bigskip
+		
+		\textbf{Solution}. If $(\bo{I} - \bo{B}\bo{B}^+)\bo{r} = 0$ then at least one solution to the ID exists. Multiple solutions will exist iff $\bo{B}$ has a non-trivial null space:
+		%
+		\begin{equation}
+			\text{dim}(\text{null}(\bo{B})) = k > 0
+		\end{equation}		
+		%
+		If the null space of $\bo{B}$ is non-trivial, then all solutions to the ID take form:
+		%
+		\begin{align}
+			\bo{u} = \bo{B}^+ (\bo{H} \bo{a} + \bo{C}\dot{\bo{q}} + \bo{g} ) + 
+			\bo{N}\bo{v}, \ \ \ \forall \bo{v} \in \R^k
+			\\
+			\bo{N} = \text{null}(\bo{B})
+		\end{align}		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Further reading}
+	% \framesubtitle{Local coordinates}
+	\begin{flushleft}
+		
+		\begin{itemize}
+			\item \bref{https://faculty.math.illinois.edu/~mlavrov/docs/484-spring-2019/ch4lec4.pdf}{Minimum Norm Solutions, Math 484: Nonlinear Programming, Mikhail Lavrov}
+			%https://faculty.math.illinois.edu/~mlavrov/courses/484-spring-2019.html
+			
+			\item \bref{https://faculty.math.illinois.edu/~mlavrov/docs/484-spring-2019/ch4lec3.pdf}{Orthogonality, Math 484: Nonlinear Programming, Mikhail Lavrov}
+			
+			\item \bref{http://databookuw.com/databook.pdf}{Data Driven Science \& Engineering. Machine Learning, Dynamical Systems, and Control, Steven L. Brunton, J. Nathan Kutz}, chapter Singular Value Decomposition (SVD)
+			
+		\end{itemize}
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+
+
+
+\myqrframe
+
+
+
+
+\end{document}

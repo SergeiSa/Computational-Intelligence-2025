@@ -30,7 +30,16 @@ x_cvx = x;
 error = A*x_cvx-b;
 disp(['x_cvx, error norm is: ', num2str(norm(error))]);
 
-[x_analytic, x_cvx]
-[norm(x_analytic), norm(x_cvx)]
+% [x_analytic, x_cvx]
+% [norm(x_analytic), norm(x_cvx)]
+
+
+disp(" ")
+disp(" ")
+disp("x_analytic, x_cvx, x_analytic-x_cvx")
+[x_analytic, x_cvx, x_analytic-x_cvx]
+
+disp("norm(x_analytic), norm(x_cvx), norm(x_analytic-x_cvx)")
+[norm(x_analytic), norm(x_cvx), norm(x_analytic-x_cvx)]
 
 

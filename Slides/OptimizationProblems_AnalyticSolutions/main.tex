@@ -4,7 +4,7 @@
 
 
 \title{Optimization problems, Analytic solutions}
-\subtitle{Computational Intelligence, Lecture 3}
+\subtitle{Computational Intelligence, Lecture 4}
 \author{by Sergei Savin}
 \centering
 \date{\mydate}
@@ -127,7 +127,42 @@
 \end{frame}
 
 
-\begin{frame}{Problems with analytical solutions}
+
+\begin{frame}{Equatily constraints, Lagrangian}
+	% \framesubtitle{Parameter estimation}
+	\begin{flushleft}
+		
+		Consider optimization problems with equality constraints:
+		%
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\bo{x}}{\text{minimize}}
+				& & f(\bo{x}), \\
+				& \text{subject to}
+				& & g(\bo{x}) = 0
+			\end{aligned}
+		\end{equation}
+		
+		We solve it by constructing its \emph{Lagrangian}:
+		
+		\begin{equation}
+			L(\bo{x}, \lambda) = f(\bo{x}) + \lambda\T g(\bo{x})
+		\end{equation}
+		
+		Extremum of the Lagrangian corresponds to the solution of the original problem:
+		
+		\begin{align}
+			\frac{\partial L(\bo{x}, \lambda)}{\partial \bo{x}} = 0
+			\\
+			\frac{\partial L(\bo{x}, \lambda)}{\partial \lambda} = 0
+		\end{align}
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Unconstrained optimization examples}
 % \framesubtitle{Parameter estimation}
 \begin{flushleft}
 	
@@ -154,75 +189,44 @@ We know solution of $\textcolor{mydarkgray}{\text{minimize} \ ||\mathbf{A}\mathb
 
 
 
-
-
-\begin{frame}{Norms and quadratic forms}
-	% \framesubtitle{Parameter estimation}
-	\begin{flushleft}
-		
-		
-		Note that the following problems will always have the same solutions:
-		
-		\begin{itemize}
-			\item $\text{minimize} \ ||\mathbf{A}\mathbf{x} + \mathbf{b}||$;
-			
-			\item $\text{minimize} \ (\mathbf{A}\mathbf{x} + \mathbf{b})\T (\mathbf{A}\mathbf{x} + \mathbf{b})$;
-		\end{itemize}
-	
-		This is because square root is a monotonic function.
-		
-		\bigskip
-		
-		This \textbf{does not} imply equivalence of the following problems:
-		
-		\begin{itemize}
-			\item $\text{minimize} \ \sum ||\mathbf{A}_i\mathbf{x} + \mathbf{b}_i||$;
-			
-			\item $\text{minimize} \  \sum (\mathbf{A}_i\mathbf{x} + \mathbf{b}_i)\T (\mathbf{A}_i\mathbf{x} + \mathbf{b}_i)$;
-		\end{itemize}
-		
-		
-	\end{flushleft}
-\end{frame}
-
-
-
-\begin{frame}{Problems with analytical solutions}
-%\framesubtitle{Part 3}
+\begin{frame}{Least squares with constraints}
 \begin{flushleft}
 
 
-Problem 4. 
+Problem 4. (form 1)
 %
 \begin{equation}
 \begin{aligned}
 & \underset{\mathbf{x}}{\text{minimize}}
 & & || \mathbf{x} ||, \\
 & \text{subject to}
-& & \mathbf{A} \mathbf{x} = \mathbf{c}.
+& & \mathbf{A} \mathbf{x} = \mathbf{b}.
 \end{aligned}
 \end{equation}
 
 
-All solutions to $\mathbf{A} \mathbf{x} = \mathbf{c}$ are written as $\mathbf{x} = \mathbf{A}^+\mathbf{c} + \mathbf{N}\mathbf{z}$, where $\mathbf{N} = \text{null}(\mathbf{A})$, and $\mathbf{A}^+\mathbf{c} \in \text{row}(\mathbf{A})$ as we proved previously. Since null space solution $\mathbf{N}\mathbf{z}$ and row space paricular solution $\mathbf{A}^+\mathbf{c}$ are orthagonal, the minimum norm solution corresponds to $\mathbf{z} = \mathbf{0}$, hence $\mathbf{x} = \mathbf{A}^+\mathbf{c}$.
-
-
-
-\end{flushleft}
-\end{frame}
-
-
-
-\begin{frame}{Problems with analytical solutions}
-%\framesubtitle{Part 4}
-\begin{flushleft}
-
-
-Thus, the solution is  $\mathbf{x} = \mathbf{A}^+\mathbf{c}$. Notice that solutions for the problem 4 and problem 3 are written identically (sans the sign), even though problem 3 asks us to minimize residual of the linear system, while problem 4 - find minimum norm solution. 
+All solutions to $\mathbf{A} \mathbf{x} = \mathbf{b}$ are written as $\mathbf{x} = \mathbf{A}^+\mathbf{b} + \mathbf{N}\mathbf{z}$, where $\mathbf{N} = \text{null}(\mathbf{A})$, and $\mathbf{A}^+\mathbf{b} \in \text{row}(\mathbf{A})$ as we proved previously. 
 
 \bigskip
 
-This illustrates an important fact that solution to the least squares problem, formulated either as "minimization of a residual" or as a "minimum norm solution" are given by the same formula, which we call Moore-Penrose pseudoinverse.
+Since the null space solution $\mathbf{N}\mathbf{z}$ and the row space paricular solution $\mathbf{A}^+\mathbf{b}$ are orthogonal, the minimum norm solution corresponds to $\mathbf{z} = \mathbf{0}$, hence:
+
+\begin{equation}
+	\mathbf{x} = \mathbf{A}^+\mathbf{b}
+\end{equation}
+
+\end{flushleft}
+\end{frame}
+
+\begin{frame}{Least squares with constraints}
+\begin{flushleft}
+
+
+Thus, the solution is  $\mathbf{x} = \mathbf{A}^+\mathbf{b}$. Notice that the solutions for the problems 3 and 4 are written identically (sans the sign), even though the problem 3 asks to minimize the residual of the linear system, while problem 4 - to find the minimum-norm solution. 
+
+\bigskip
+
+This illustrates an important fact: the solution to the least squares problem, formulated either as ``minimization of a residual" or as a ``minimum norm solution" are given by the same formula, which we call Moore-Penrose pseudoinverse.
 
 
 \end{flushleft}
@@ -231,8 +235,82 @@ This illustrates an important fact that solution to the least squares problem, f
 
 
 
+\begin{frame}{Least squares with constraints}
+	\begin{flushleft}
+		
+		
+		Problem 4. (form 2)
+		%
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\mathbf{x}}{\text{minimize}}
+				& & \frac{1}{2} \bo{x}\T \bo{x}, \\
+				& \text{subject to}
+				& & \bo{A} \bo{x} = \bo{b}.
+			\end{aligned}
+		\end{equation}
+		
+		Let us find Lagrangian $L =\frac{1}{2} \bo{x}\T \bo{x} + \lambda\T ( \mathbf{A} \mathbf{x} - \bo{b})$. It achieves extremum at solution of the original problem:
+		
+		\begin{align}
+			\frac{\partial L}{\partial \bo{x}} &=  \bo{x} + \bo{A}\T  \lambda = 0 
+			\\
+			\frac{\partial L}{\partial \lambda} &=  \bo{A} \bo{x}- \bo{b} = 0
+		\end{align}
+		
+		We can express $\bo{x} = -\bo{A}\T  \lambda$ and substitute it $\bo{A} \bo{A}\T  \lambda= -\bo{b}$. If $\text{det}(\bo{A} \bo{A}\T ) \neq 0$, then:
+		%
+		\begin{align}
+			 \lambda= - (\bo{A} \bo{A}\T )^{-1} \bo{b}
+			 \\
+			 \bo{x} = \bo{A}\T  (\bo{A} \bo{A}\T )^{-1} \bo{b}
+		\end{align}		
+		
+	\end{flushleft}
+\end{frame}
 
-\begin{frame}{Problems with analytical solutions}
+
+
+
+\begin{frame}{Least squares with constraints}
+	\begin{flushleft}
+		
+		We can prove that $ \bo{A}\T  (\bo{A} \bo{A}\T )^{-1} = \bo{A}^+$.
+		
+		\bigskip
+		
+		We can re-write the expression $\bo{A} \bo{A}\T  \lambda= -\bo{b}$ using SVD decomposition $\bo{A} = \bo{C}\Sigma\bo{R}\T$:
+		
+		\begin{align}
+			 \bo{C}\Sigma\bo{R}\T \bo{R}\Sigma\bo{C}\T  \lambda= -\bo{b}
+			 \\
+			 \bo{C}\Sigma \Sigma\bo{C}\T  \lambda= -\bo{b}
+			 \\
+			  \textcolor{mydarkred}{\bo{C}\T  \lambda}= -\Sigma^{-2} \bo{C}\T \bo{b}
+		\end{align}				
+		
+		Next, we do the same with $\bo{x} = -\bo{A}\T  \lambda$:
+		%
+		\begin{align}
+			\bo{x} = -\bo{R}\Sigma\textcolor{mydarkred}{\bo{C}\T  \lambda}
+			\\
+			\bo{x} = \bo{R}\Sigma\Sigma^{-2} \bo{C}\T \bo{b}
+			\\
+			\bo{x} = \bo{R}\Sigma^{-1} \bo{C}\T \bo{b}
+		\end{align}				
+		
+		But $ \bo{R}\Sigma^{-1} \bo{C}\T \ = \bo{A}^+$, so $\bo{x} =\bo{A}^+ \bo{b}$. More in Appendix.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+
+
+
+\begin{frame}{Problems with weighted norms}
 %\framesubtitle{Part 4}
 \begin{flushleft}
 
@@ -262,7 +340,7 @@ $\mathbf{z}^* = -(\mathbf{D}\mathbf{N})^+ \mathbf{D}\mathbf{A}^+\mathbf{b}$. In 
 
 
 
-\begin{frame}{Problems with analytical solutions}
+\begin{frame}{Problems with weighted norms}
 %\framesubtitle{Part 5}
 \begin{flushleft}
 
@@ -293,8 +371,70 @@ After the same initial step, we arrive at the cost function $|| \mathbf{D}\mathb
 
 
 
-\begin{frame}{Problems with analytical solutions}
-%\framesubtitle{Part 6}
+
+\begin{frame}{Positive-definite matrices}
+	\begin{flushleft}
+		
+		A symmetric positive-definite matrix $\bo{M}$ has the following properties:
+		
+		\begin{align}
+			&\bo{M} = \bo{M}\T
+			\\
+			&\bo{x}\T \bo{M} \bo{x} > 0, \ \ \forall \bo{x} \neq 0
+			\\
+			& \text{det}(\bo{M}) \neq 0
+		\end{align}
+		
+		Positive-definite matrices (with non-repeating eigenvalues) have orthogonal eigenvectors, making their eigenbasis orthonormal:
+		
+		\begin{align}
+			& \bo{M} \bo{V} = \bo{V} \Lambda  
+			\\
+			& \bo{M} = \bo{V} \Lambda \bo{V}\T 
+		\end{align}
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Matrix square root}
+	\begin{flushleft}
+		
+		For a symmetric positive-definite matrix $\bo{M}$ we can define a square root:
+		
+		\begin{align}
+			\bo{M} &= \sqrt{\bo{M} } \sqrt{\bo{M} }
+			\\
+			\bo{M} &= \bo{M}^\frac{1}{2} \bo{M}^\frac{1}{2}
+		\end{align}
+		
+		We can find a square root via eigendecomposition:
+		
+		\begin{align}
+			& \bo{M} = \bo{V} \Lambda \bo{V}\T 
+			\\
+			&  \Lambda =  \bo{F} \bo{F}
+			\\
+			& \bo{M} = \bo{V} \bo{F} \bo{F} \bo{V}\T 
+			\\
+			& \bo{M} = \bo{V} \bo{F} \bo{V}\T\bo{V}  \bo{F} \bo{V}\T 
+			\\
+			& \sqrt{\bo{M} }  = \bo{V} \bo{F} \bo{V}\T
+			\\
+			&\bo{M} = \sqrt{\bo{M} } \sqrt{\bo{M} } 
+		\end{align}
+		
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Problems quadratic cost}
 \begin{flushleft}
 
 Problem 7. 
@@ -384,10 +524,126 @@ Therefore the problem has the same solution as Problem 5, after the mentioned ab
 
 
 
+\begin{frame}{Example, 1}
+	% \framesubtitle{Parameter estimation}
+	\begin{flushleft}
+		
+		A drone flies along a line defined by a point $\bo{c}$ and a direction $\bo{v}$. Find a point at which it will pass closest to a ground station located at $\bo{a}$.
+		
+		\bigskip
+		
+		\emph{Solution}. We can describe any point on the line as $\bo{x} = \bo{v} \alpha + \bo{c}$. So, the problem can be written as:
+		%
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\bo{x}, \alpha}{\text{minimize}}
+				& & \frac{1}{2}(\bo{x}- \bo{a})\T(\bo{x}- \bo{a}), \\
+				& \text{subject to}
+				& & \bo{x} = \bo{v} \alpha + \bo{c}
+			\end{aligned}
+		\end{equation}
+		
+		Lagrangian of the problem is:
+		%
+		\begin{equation}
+			L =  \frac{1}{2}(\bo{x}- \bo{a})\T(\bo{x}- \bo{a}) + \lambda\T  ( \bo{v} \alpha + \bo{c} - \bo{x})
+		\end{equation}
+		
+	
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Example, 2}
+	% \framesubtitle{Parameter estimation}
+	\begin{flushleft}
+		
+		\begin{equation}
+			L =  \frac{1}{2}(\bo{x}- \bo{a})\T(\bo{x}- \bo{a}) + \lambda\T ( \bo{v} \alpha + \bo{c} - \bo{x})
+		\end{equation}
+		
+		Partial dervatives of the Lagrangian:
+		
+		\begin{align}
+			\frac{\partial L}{\partial \bo{x}} &=  (\bo{x}- \bo{a}) - \lambda = 0
+			\\
+			\frac{\partial L}{\partial \alpha} &=  \lambda\T \bo{v} = 0
+			\\
+			\frac{\partial L}{\partial  \lambda} &=   \bo{v} \alpha + \bo{c} - \bo{x} = 0
+		\end{align}
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Example, 3}
+	% \framesubtitle{Parameter estimation}
+	\begin{flushleft}
+		
+		% TODO: \usepackage{graphicx} required
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.7\linewidth]{fig1}
+		\end{figure}
+		
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
 
 
 
 
 \myqrframe
+
+
+
+
+\begin{frame}{Least squares with constraints}
+	\begin{flushleft}
+		
+		\begin{small}
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\mathbf{x}}{\text{minimize}}
+				& & \frac{1}{2} \bo{x}\T \bo{x}, \\
+				& \text{subject to}
+				& & \bo{A} \bo{x} = \bo{b}.
+			\end{aligned}
+		\end{equation}
+		
+		All solutions to $\bo{A} \bo{x} = \bo{b}$ are written as $\bo{x} = \bo{A}^+\bo{b} + \bo{N}\bo{z}$, where $\bo{N} = \text{null}(\bo{A})$, and $\bo{A}^+\bo{b} \in \text{row}(\bo{A})$ as we proved previously.  The cost function is:
+		%
+		\begin{align}
+			f_c &= \frac{1}{2} (\bo{A}^+\bo{b} + \bo{N}\bo{z})\T (\bo{A}^+\bo{b} + \bo{N}\bo{z}) 
+		\end{align}
+		%
+		We find extremum:
+		%
+		\begin{align}
+			\frac{\partial f_c}{\partial \bo{z}} &= \bo{N}\T \bo{A}^+\bo{b} + \bo{N}\T\bo{N}\bo{z} = 0
+			\\
+			\bo{z} &= - \bo{N}\T \bo{A}^+\bo{b} 
+			\\
+			\bo{x} &= \bo{A}^+\bo{b} -  \bo{N}\bo{N}\T \bo{A}^+\bo{b} 
+		\end{align}
+		
+		Columns of $\bo{A}^+$ lie in the row space of $\bo{A}$, so $\bo{N}\T \bo{A}^+ = 0$:
+		%
+		\begin{align}
+			\bo{x} &= \bo{A}^+\bo{b}
+		\end{align}
+	\end{small}
+		
+	\end{flushleft}
+\end{frame}
+
 
 \end{document}
