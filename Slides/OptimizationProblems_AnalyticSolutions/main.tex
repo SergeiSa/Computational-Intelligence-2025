@@ -561,7 +561,7 @@ Therefore the problem has the same solution as Problem 5, after the mentioned ab
 	\begin{flushleft}
 		
 		\begin{equation}
-			L =  \frac{1}{2}(\bo{x}- \bo{a})\T(\bo{x}- \bo{a}) + \lambda\T ( \bo{v} \alpha + \bo{c} - \bo{x})
+			L =  \frac{1}{2}(\bo{x}- \bo{a})\T(\bo{x}- \bo{a}) + \lambda\T ( \bo{v} \xi + \bo{c} - \bo{x})
 		\end{equation}
 		
 		Partial dervatives of the Lagrangian:
@@ -571,9 +571,29 @@ Therefore the problem has the same solution as Problem 5, after the mentioned ab
 			\\
 			\frac{\partial L}{\partial \alpha} &=  \lambda\T \bo{v} = 0
 			\\
-			\frac{\partial L}{\partial  \lambda} &=   \bo{v} \alpha + \bo{c} - \bo{x} = 0
+			\frac{\partial L}{\partial  \lambda} &=   \bo{v} \xi + \bo{c} - \bo{x} = 0
 		\end{align}
 		
+		This can be expressed as:
+		
+		\begin{align}
+				\begin{bmatrix}
+					\bo{I} & 0 & -\bo{I} 
+					\\
+					0 & 0 & \bo{v}\T
+					\\
+					-\bo{I} & \bo{v} & 0
+				\end{bmatrix}
+				\begin{bmatrix}
+				\bo{x} \\ \xi \\  \lambda
+				\end{bmatrix}
+				=
+				\begin{bmatrix}
+					\bo{a} \\ 0 \\  -\bo{c}
+				\end{bmatrix}
+		\end{align}
+		
+		which can be solved via inverse.
 		
 	\end{flushleft}
 \end{frame}
@@ -584,10 +604,37 @@ Therefore the problem has the same solution as Problem 5, after the mentioned ab
 	% \framesubtitle{Parameter estimation}
 	\begin{flushleft}
 		
+		Using equations $\textcolor{myred}{\bo{x}- \bo{a} = \lambda}$ and $\textcolor{myblue}{\lambda\T \bo{v} = 0}$ and $\textcolor{mydarkgreen}{\bo{v} \xi + \bo{c} = \bo{x}}$ we can write:
+		
+		\begin{align}
+			\bo{v}\T (\bo{x}- \bo{a}) = 0
+			\\
+			\bo{v}\T \bo{v} \xi + \bo{v}\T\bo{c} - \bo{v}\T \bo{a} = 0
+		\end{align}
+		
+		Since $\bo{v}\T \bo{v} = 1$, so $\xi  = \bo{v}\T (\bo{a} - \bo{c})$. With that:
+		
+		\begin{align}
+			\bo{x} &= \bo{v} \bo{v}\T \bo{a} + (\bo{I} - \bo{v} \bo{v}\T) \bo{c}
+			\\
+			\lambda &= (\bo{I} - \bo{v} \bo{v}\T)(\bo{c} - \bo{a})
+		\end{align}
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Example, 4}
+	% \framesubtitle{Parameter estimation}
+	\begin{flushleft}
+		
 		% TODO: \usepackage{graphicx} required
 		\begin{figure}
 			\centering
 			\includegraphics[width=0.7\linewidth]{fig1}
+			\caption{An illustration of the problem}
 		\end{figure}
 		
 		

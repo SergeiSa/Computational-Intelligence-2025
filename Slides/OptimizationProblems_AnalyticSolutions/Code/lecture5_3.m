@@ -10,9 +10,22 @@ M = [eye(2),      zeros(2, 1),-eye(2);
     -eye(2),      v,           zeros(2, 2)];
 vec = [a; 0; -c];
 
+rank(M)
+size(M)
+
 var = pinv(M) * vec;
 
 x_analytic = var(1:2);
+
+%%%%%%%%%%%%
+
+ksi2 = v'*(a-c);
+x_analytic2 = v*v'*a + (eye(2) - v*v')*c;
+lambda2 = (eye(2) - v*v')*(c - a);
+var2 = [x_analytic2; ksi2; lambda2];
+
+disp("norm(var), norm(var2), norm(var-var2)")
+[norm(var), norm(var2), norm(var-var2)]
 
 %%%%%%%%%%%%
 % check
