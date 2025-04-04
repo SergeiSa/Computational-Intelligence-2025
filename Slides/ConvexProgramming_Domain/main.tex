@@ -4,7 +4,7 @@
 
 
 \title{Domain, Convexity}
-\subtitle{Computational Intelligence, Lecture 4}
+\subtitle{Computational Intelligence, Lecture 5}
 \author{by Sergei Savin}
 \centering
 \date{\mydate}
@@ -328,19 +328,17 @@ where $\mathbf{H}$ is positive-definite and $\mathbf{A}\mathbf{x} \leq \mathbf{b
 	% \framesubtitle{Parameter estimation}
 	\begin{flushleft}
 		
-		%$\mathbf{x} \in \mathcal{X}$, $\mathcal{X} = \{ \mathbf{x} \in \mathbb{R}^n: \ \mathbf{x} \geq \mathbf{h} \}$ is not convex. Prove it.
-		%
-		%\bigskip
+		Prove the following statements:
 		
-		$x \in \mathcal{X}$, $\mathcal{X} = [-1 \ 2] \cup [3 \ 7]$ is not convex..
+		$x \in \mathcal{X}$, $\mathcal{X} = [-1 \ 2] \cup [3 \ 7]$ is not convex.
 		
 		\bigskip
 		
-		$\mathbf{x} \in \mathcal{X}$, $\mathcal{X} = \{ \mathbf{x} \in \mathbb{R}^2: \ x_1^2+x_2^2 \geq h^2 \}$ is not convex. Prove it.
+		$\mathbf{x} \in \mathcal{X}$, $\mathcal{X} = \{ \mathbf{x} \in \mathbb{R}^2: \ x_1^2+x_2^2 \geq h^2 \}$ is not convex. 
 		
 		\bigskip
 		
-		$\mathbf{x} \in \mathcal{X}$, $\mathcal{X} = \{ \mathbf{x} \in \mathbb{R}^n: \ \mathbf{x}^\top \mathbf{H} \mathbf{x} \geq 1 \}$, where $\mathbf{H}$ is positive-definite symmetric matrix is not convex. Prove it.
+		$\mathbf{x} \in \mathcal{X}$, $\mathcal{X} = \{ \mathbf{x} \in \mathbb{R}^n: \ \mathbf{x}^\top \mathbf{H} \mathbf{x} \geq 1 \}$, where $\mathbf{H}$ is positive-definite symmetric matrix is not convex. 
 		
 		\bigskip
 		
@@ -372,6 +370,71 @@ where $\mathbf{H}$ is positive-definite and $\mathbf{A}\mathbf{x} \leq \mathbf{b
 
 
 
+\begin{frame}{Example - inv. dynamics}
+	% \framesubtitle{Parameter estimation}
+	\begin{flushleft}
+		
+		Consider a dynamical system:
+		%
+		\begin{equation}
+			\bo{H} \bo{a} + \bo{C}\dot{\bo{q}} + \bo{g} = \bo{B}\bo{u}
+		\end{equation}		
+		
+		For the current state $\bo{q}$, $\dot{\bo{q}}$ find such $\bo{u}$ that makes $\bo{a}$ closest to the desired value $\bo{a}_d$, \textcolor{mydarkred}{ requiring that each component of $\bo{u}$ does not exceed a threshold $u_{max}$ by absolute value.}
+		
+		\bigskip
+		
+		\textbf{Solution}:
+		%
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\bo{u}, \bo{a}}{\text{minimize}}
+				& & (\bo{a}-\bo{a}_d)\T (\bo{a}-\bo{a}_d), \\
+				& \text{subject to}
+				& & \begin{cases}
+					\bo{H} \bo{a} + \bo{C}\dot{\bo{q}} + \bo{g} = \bo{B}\bo{u} \\
+					|u_i| \leq u_{max}, \ \forall i
+				\end{cases}
+			\end{aligned}
+		\end{equation}
+		
+		The domain described by the inequalities $|u_i| \leq u_{max}$ is \textbf{convex}.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Example - position planning}
+	% \framesubtitle{Parameter estimation}
+	\begin{flushleft}
+		
+		Find a position $\bo{r} = [x, \ y]\T$ of a robot, closest to the desired position $\bo{r}_d= [x_d, \ y_d]\T$ but \textcolor{mydarkred}{not less than 5m away from the ground station and no more than 100 meters away from the ground station.} Position of the ground station is $\bo{r}_g= [x_g, \ y_g]\T$.
+		
+		\bigskip
+		
+		\textbf{Solution}:
+		%
+		\begin{equation}
+			\begin{aligned}
+				& \underset{x, y}{\text{minimize}}
+				& & (x-x_d)^2 + (y-y_d)^2, \\
+				& \text{subject to}
+				& & \begin{cases}
+					(x-x_g)^2 + (y-y_g)^2 > 5^2 \\
+					(x-x_g)^2 + (y-y_g)^2 < 100^2
+				\end{cases}
+			\end{aligned}
+		\end{equation}
+		
+		The domain described by these inequalities is \textbf{not convex}.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
 \begin{frame}
 		\centerline{\huge Convex functions}
 \end{frame}
@@ -383,11 +446,8 @@ where $\mathbf{H}$ is positive-definite and $\mathbf{A}\mathbf{x} \leq \mathbf{b
 	% \framesubtitle{Parameter estimation}
 	\begin{flushleft}
 		
-		\begin{block}{Definition 3}
-			Function $f(\mathbf{x})$ defined on a domain $\mathcal{D}$, for which it holds that $\forall \mathbf{x}_1, \mathbf{x}_2 \in \mathcal{D}$, $f(\alpha \mathbf{x}_1 + (1 - \alpha) \mathbf{x}_2) \leq \alpha f(\mathbf{x}_1) + (1 - \alpha) f(\mathbf{x}_2)$ is called \emph{a convex function}.
-		\end{block}
+		A function, for which a line connecting any points on its graph lies above the graph is a convex function.
 		
-		\bigskip
 		
 		\begin{figure}
 			\centering
@@ -440,17 +500,21 @@ where $\mathbf{H}$ is positive-definite and $\mathbf{A}\mathbf{x} \leq \mathbf{b
 \end{frame}
 
 
+
+
+
 \begin{frame}{Jensen’s inequality}
 	% \framesubtitle{Parameter estimation}
 	\begin{flushleft}
 		
-		The inequality we studied:
-		%
-		\begin{equation}
-			f(\alpha \mathbf{x}_1 + (1 - \alpha) \mathbf{x}_2) \leq \alpha f(\mathbf{x}_1) + (1 - \alpha) f(\mathbf{x}_2)
-		\end{equation}
 		
-		is called \emph{Jensen’s inequality}. It can be re-written equivalently as:
+		\begin{block}{Definition 3}
+			Function $f(\mathbf{x})$ defined on a domain $\mathcal{D}$, for which it holds that $\forall \mathbf{x}_1, \mathbf{x}_2 \in \mathcal{D}$, $f(\alpha \mathbf{x}_1 + (1 - \alpha) \mathbf{x}_2) \leq \alpha f(\mathbf{x}_1) + (1 - \alpha) f(\mathbf{x}_2)$ is called \emph{a convex function}.
+		\end{block}
+		
+		\bigskip
+		
+		The inequality in the definition is called \emph{Jensen’s inequality}. It can be re-written equivalently as:
 		%
 		\begin{align}
 			\begin{cases}
@@ -546,6 +610,75 @@ where $\mathbf{H}$ is positive-definite and $\mathbf{A}\mathbf{x} \leq \mathbf{b
 			\item If the domain is non-empty, there is a solution.
 			\item The problem has no local minima. We can find a path from any point to the solution, along which the cost function will not increase.
 		\end{itemize}
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Example - force control}
+	\begin{flushleft}
+		
+		Consider a robot arm; the force of its end-effector is related to the torques in its joints via equation $\bo{f} = \bo{J} \tau$. Find the joint torques that produce the output force closest to the desired value $\bo{f}_d$, while component torques are limited in magnitude by $\tau_{max}$.
+		
+		\bigskip
+		
+		\textbf{Solution}:
+		%
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\tau, \bo{f}}{\text{minimize}}
+				& & (\bo{f}-\bo{f}_d)\T (\bo{f}-\bo{f}_d), \\
+				& \text{subject to}
+				& & \begin{cases}
+					\bo{f} = \bo{J} \tau \\
+					|\tau_i| \leq \tau_{max}, \ \forall i
+				\end{cases}
+			\end{aligned}
+		\end{equation}
+		%
+		Let us re-write the cost function as follows:
+		%
+		\begin{align}
+			(\bo{f}-\bo{f}_d)\T (\bo{f}-\bo{f}_d) = \bo{f}\T \bo{f} + 2 \bo{f}\T\bo{f}_d + \bo{f}_d\T \bo{f}_d
+		\end{align}
+		
+		The cost function is \textbf{convex} (it is quadratic) and the domain is \textbf{convex}.
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Example - inverse kinematics}
+	\begin{flushleft}
+		
+		Consider an inverted pendulum; the position of its point is described as $x = \cos(\varphi)$, $y = \sin(\varphi)$. Find such angle $\varphi$ that puts the point closest to the desired position $x_d, y_d$.
+		
+		\bigskip
+		
+		\textbf{Solution}:
+		%
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\varphi}{\text{minimize}}
+				& & (\cos(\varphi)-x_d)^2 + 
+				(\sin(\varphi)-y_d)^2
+			\end{aligned}
+		\end{equation}
+		
+		The cost function is \textbf{not convex}. See its graph:
+		
+		% TODO: \usepackage{graphicx} required
+		\begin{figure}
+			\centering
+			\includegraphics[height=0.4\textheight]{NonConvex}
+		\end{figure}
+		
+		
 		
 	\end{flushleft}
 \end{frame}

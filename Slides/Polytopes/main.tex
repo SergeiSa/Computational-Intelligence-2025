@@ -1,10 +1,11 @@
 \documentclass{beamer}
 
 \input{settings.tex}
+\usepackage{multicol}
 
 
 \title{Linear inequalities and polytopes}
-\subtitle{Computational Intelligence, Lecture 5}
+\subtitle{Computational Intelligence, Lecture 6}
 \author{by Sergei Savin}
 \centering
 \date{\mydate}
@@ -73,11 +74,11 @@ We can define half-space as a set of all points $\mathbf{x}$, such that $\mathbf
 \framesubtitle{Construction. Simple case}
 \begin{flushleft}
 
-Consider half-space that passes through the origin, and defined by its normal vector $\mathbf{n}$:
+Consider a half-space that passes through the origin, and defined by its normal vector $\mathbf{n}$:
 
 \include{fig3}
 
-It is easy to see that this half-space can be defined as "all vectors $\mathbf{x}$, such that $\mathbf{n} \cdot \mathbf{x} \leq 0$", which is the same as using $\mathbf{n}$ instead of $\mathbf{a}$ in our original definition, setting $b = 0$.
+This half-space can be defined as "all vectors $\mathbf{x}$, such that $\mathbf{n} \cdot \mathbf{x} \leq 0$", which is the same as using $\mathbf{n}$ instead of $\mathbf{a}$ in our original definition, setting $b = 0$.
  
 \end{flushleft}
 \end{frame}
@@ -93,7 +94,7 @@ In the general case there is some distance between the boundary of the half-spac
 
 \include{fig4}
 %
-Here the half space can be defined as "all vectors $\mathbf{x}$, such that $\mathbf{x}^\top \frac{\mathbf{n}}{|| \mathbf{n} ||}  \leq d$". This is the same as making $\mathbf{a} = \mathbf{n}$ and $b = d ||\mathbf{a}||$.
+Here the half space can be defined as "all vectors $\mathbf{x}$, such that $\mathbf{x}^\top \frac{\mathbf{n}}{|| \mathbf{n} ||}  \leq d$". This is the same as making $\mathbf{a} = \mathbf{n}$ and $b = d ||\mathbf{n}||$.
  
 \end{flushleft}
 \end{frame}
@@ -159,7 +160,42 @@ And conversely, any matrix inequality \eqref{eq:ineq} represents either an empty
 
 
 
-
+\begin{frame}{Example}
+	%\framesubtitle{}
+	\begin{flushleft}
+		
+		Find robot's position $\bo{r} = [x, \ y]\T$ in a room of length $l$ and width $w$, closest to the desired point $\bo{r}_d= [x_d, \ y_d]\T$; the coordinate system is aligned with axes of the room, the center of the room is the point (0, 0).
+		
+		\bigskip
+		
+		\hspace{-0.2in}
+		\textbf{Solution}. The geometry of the room imposes 4 constraints on $\bo{r}$:
+		
+		\begin{multicols}{2}
+		\begin{enumerate}
+			\item $\begin{bmatrix} 1 & 0 \end{bmatrix} \bo{r} \leq 0.5 l$
+			\item $\begin{bmatrix} -1 & 0 \end{bmatrix}  \bo{r} \leq 0.5 l$
+			\item $\begin{bmatrix} 0 & 1 \end{bmatrix}  \bo{r} \leq 0.5 w$
+			\item $\begin{bmatrix} 0 & -1 \end{bmatrix}  \bo{r} \leq 0.5 w$
+		\end{enumerate}
+	\end{multicols}
+		
+		The solution takes the form of a QP:
+		
+		\begin{equation}
+			\begin{aligned}
+				& \underset{x, y}{\text{minimize}}
+				& & (x-x_d)^2 + (y-y_d)^2, \\
+				& \text{subject to}
+				& & \begin{bmatrix} 1 & 0 \\ -1 & 0 \\ 0 & 1 \\ 0 & -1 \end{bmatrix}
+				\begin{bmatrix} x \\ y \end{bmatrix}
+				\leq
+				\begin{bmatrix} 0.5 l \\ 0.5 l \\ 0.5 w \\ 0.5 w \end{bmatrix}
+			\end{aligned}
+		\end{equation}
+		
+	\end{flushleft}
+\end{frame}
 
 
 
@@ -229,6 +265,52 @@ is an H-representation of the same square.
 
 
 
+
+
+\begin{frame}{Example}
+	%\framesubtitle{}
+	\begin{flushleft}
+		
+		Find robot's position $\bo{r} = [x, \ y]\T$  closest to the desired point $\bo{r}_d= [x_d, \ y_d]\T$ in a fenced-off area. The fence connects point $(-10, 0)$ to $(0, 10)$ to $(7, 7)$ to $(0, -10)$.
+		
+		\bigskip
+		
+		\textbf{Solution}:
+		
+		\begin{equation}
+			\begin{aligned}
+				& \underset{x, y}{\text{minimize}}
+				& & (x-x_d)^2 + (y-y_d)^2, \\
+				& \text{subject to}
+				& & 
+				\begin{cases}
+					\begin{bmatrix} x \\y \end{bmatrix}
+					=
+					\alpha_1
+					\begin{bmatrix} -10 \\0 \end{bmatrix}
+					+
+					\alpha_2
+					\begin{bmatrix} 0 \\10 \end{bmatrix}
+					+
+					\alpha_3
+					\begin{bmatrix} 7 \\7 \end{bmatrix}
+					+
+					\alpha_4
+					\begin{bmatrix} 0 \\ -10 \end{bmatrix}
+					\\
+					\alpha_1 + \alpha_2 + \alpha_3 + \alpha_4 = 1
+					\\
+					\alpha_1 \geq 0 \\  \alpha_2 \geq 0 \\  \alpha_3 \geq 0 \\  \alpha_4 \geq 0
+				\end{cases}
+			\end{aligned}
+		\end{equation}
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+
 \begin{frame}{H and V-representations}
 % \framesubtitle{}
 \begin{flushleft}
@@ -237,7 +319,7 @@ To transfer from H-representation to V-representation, you need to solve \emph{v
 
 \bigskip
 
-It is also possible to construct H-representation out of V-representation.  Both algorithms are not convex.
+It is also possible to recover H-representation from V-representation. 
  
 \end{flushleft}
 \end{frame}
@@ -303,8 +385,8 @@ It is also possible to construct H-representation out of V-representation.  Both
 Some convex regions can be easily approximated using polytopes.
 
 \include{fig6}
-
-Which allows to represent constraints on $\mathbf{x}$ to belong in such a region as a matrix inequality
+%
+This allows us to represent constraints on $\mathbf{x}$ to belong in such a region as a matrix inequality
  
 \end{flushleft}
 \end{frame}
@@ -364,7 +446,7 @@ Write H-representation of the following polytopes:
 			\mathcal{P} = \left \{  \bo{x} = \sum_{i=1}^{3} \alpha_i\bo{x}_i: \   \sum_{i=1}^{3} \alpha_i = 1, \  \alpha_i  \in [0 \ 1] \right \}
 		\end{equation}
 		
-		Let $\bo{z}$ be a convex combination of $\bo{x}_1$ and $\bo{x}_3$: $\bo{z} = \beta_1 \bo{x}_1 + \beta_3 \bo{x}_3 $. Then any $\bo{p} \in \mathcal{P}$ is expressed as a convex combination of $\bo{z}$ and $\bo{x}_2$: $\bo{p} = \gamma_1 \bo{z} + \gamma_2 \bo{x}_2$.
+		Let $\bo{z}$ be a convex combination of $\bo{x}_1$ and $\bo{x}_3$: $\bo{z} = \beta_1 \bo{x}_1 + \beta_3 \bo{x}_3 $. Any point $\bo{p} \in \mathcal{P}$ can be defined as a convex combination of correctly chosen $\bo{z}$ and $\bo{x}_2$: $\bo{p} = \gamma_1 \bo{z} + \gamma_2 \bo{x}_2$.
 		
 	\end{flushleft}
 \end{frame}
