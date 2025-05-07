@@ -4,7 +4,7 @@
 
 
 \title{Quadratic programming}
-\subtitle{Computational Intelligence, Lecture 7}
+\subtitle{Computational Intelligence, Lecture 8}
 \author{by Sergei Savin}
 \centering
 \date{\mydate}
@@ -20,10 +20,8 @@
 \begin{itemize}
 \item  Quadratic programming
 \item  Quadratically constrained quadratic programming (QCQP)
-	\begin{itemize}
-		\item  QCQP to LP; QCQP to LP
-		\item  Ellipsoidal constraints $\rightarrow$ to canonical form
-	\end{itemize}
+\item  Ellipsoids: from general form to canonical form
+\item  Example: cable robot
 \end{itemize}
 
 \end{frame}
@@ -328,6 +326,87 @@ Defining $1/m_i^2 = \sigma_i^2 / d$ we get:
 	\frac{z_1^2}{m_1^2} + \frac{z_2^2}{m_2^2} + ... + 
 	\frac{z_n^2}{m_n^2} \leq 1
 \end{equation}
+		
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Example - cable robot, 1}
+	% \framesubtitle{General form}
+	\begin{flushleft}
+		
+		Consider a cable-driven parallel robot.
+		
+		% TODO: \usepackage{graphicx} required
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.5\linewidth]{"cable robot"}
+		\end{figure}
+		
+		
+		The points where the cables are attached are $O_1$, ..., $O_n$ with coordinates $\bo{r}_1$, ..., $\bo{r}_n$. The center of mass of the robot has coordinates $\bo{r}_0$. The directions of the cables are given as $\bo{p}_1$, ..., $\bo{p}_n$ and the gravity force is $\bo{f}_0$. The mass of the robot is $m$, inertia - $\bo{I}$.
+		
+		\bigskip
+		
+		Find what forces the cables need to apply to achive acceleration as close to $\bo{a}^*$ as possible, without angular acceleration.
+		
+	\end{flushleft}
+\end{frame}
+
+
+
+\begin{frame}{Example - cable robot, 2}
+	% \framesubtitle{General form}
+	\begin{flushleft}
+		
+		We define the force acting from the $i$-th cable as $ \bo{f}_i  = \bo{p}_i \alpha_i$, where $\alpha_i$ is the magnitude of the force (assuming $||\bo{p}_i|| = 1$). We can write newton equation:
+		
+		\begin{align}
+			m \bo{a} = \bo{f}_0 + \sum_{i = 1}^{n} \bo{p}_i \alpha_i
+		\end{align}
+		
+		Similar, we write Euler equation:
+		
+		\begin{align}
+			\bo{I}\varepsilon = [\bo{r}_0]_\times \bo{f}_0 + \sum_{i = 1}^{n} [\bo{r}_i]_\times \bo{p}_i \alpha_i
+		\end{align}
+		
+		where $[\bo{r}]_\times$ is a skew-symmetric representation of a vector; $[\bo{r}]_\times \bo{x} = \bo{r} \times \bo{x}$.
+		
+	\end{flushleft}
+\end{frame}
+
+
+\begin{frame}{Example - cable robot, 3}
+	% \framesubtitle{General form}
+	\begin{flushleft}
+		
+		Thus, we the problem takes form:
+		
+		%
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\alpha_i, \bo{a}, \varepsilon}{\text{minimize}}
+				& & (\bo{a}^* - \bo{a})\T (\bo{a}^* - \bo{a}) + \varepsilon\T \varepsilon, 
+				\\
+				& \text{subject to}
+				& & \begin{cases}
+					m \bo{a} = \bo{f}_0 + \sum_{i = 1}^{n} \bo{p}_i \alpha_i,
+					\\
+					\bo{I} \varepsilon = [\bo{r}_0]_\times \bo{f}_0 + \sum_{i = 1}^{n} [\bo{r}_i]_\times \bo{p}_i \alpha_i.
+				\end{cases}
+			\end{aligned}
+		\end{equation}
+		
+		\bigskip
+		
+		After solving the problem, we find the forces:
+		
+		\begin{align}
+			 \bo{f}_i  = \bo{p}_i \alpha_i
+		\end{align}
 		
 	\end{flushleft}
 \end{frame}

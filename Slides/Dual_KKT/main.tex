@@ -59,7 +59,7 @@
 			\sum\limits_j \nu_j h_j(\bo{x})
 		\end{equation}
 	%
-	where $\lambda_i$ and $\nu_j$ are Lagrange multipliers; they are sometimes called \emph{dual variables}.
+	where $\lambda_i \geq 0$ and $\nu_j$ are Lagrange multipliers; they are sometimes called \emph{dual variables}.
 		
 	\end{flushleft}
 \end{frame}
@@ -249,40 +249,6 @@
 
 
 
-%\begin{frame}{Sensitivity, 2}
-%	% \framesubtitle{General form}
-%	\begin{flushleft}
-%		
-%		
-%		Given strong duality, $p(0, 0) = g(\lambda^*, \nu^*)$ where $g(\cdot, \cdot)$ is the value of dual problem cost and $\lambda^*, \nu^*$ are optimal values of the Lagrange variables:
-%		
-%		\begin{align}
-%			p(0, 0) = g(\lambda^*, \nu^*) \leq L(\bo{x}, \lambda^*, \nu^*) = \\
-%			= 
-%			f_0(\bo{x}) + 
-%			\sum\limits_i \lambda_i^* f_i(\bo{x}) +
-%			\sum\limits_j \nu_j^* h_j(\bo{x}) \leq \\
-%			\leq 
-%			f_0(\bo{x}) + 
-%			\sum\limits_i \lambda_i^* u_i +
-%			\sum\limits_j \nu_j^* v_j
-%		\end{align}
-%		
-%		Thus we conclude that optimal cost function value (given $u_i$ and $v_j$) is given as:
-%		
-%		\begin{equation}
-%			p(\bo{u}, \bo{v}) \geq 
-%			p(0, 0)
-%			-
-%			\sum\limits_i \lambda_i^* f_i(\bo{x}) -
-%			\sum\limits_j \nu_j^* h_j(\bo{x})
-%		\end{equation}
-%		
-%		
-%		
-%	\end{flushleft}
-%\end{frame}
-
 
 
 
@@ -309,6 +275,47 @@
 \end{frame}
 
 
+
+
+%
+%\begin{frame}{Sensitivity, 3}
+%	% \framesubtitle{General form}
+%	\begin{flushleft}
+%		
+%	Consider a perturbed problem:
+%		
+%		\begin{equation}
+%			\begin{aligned}
+%				& \underset{\bo{x}}{\text{minimize}}
+%				& & f_0(\bo{x}), \\
+%				& \text{subject to}
+%				& & \begin{cases}
+%					f_1(\bo{x}) \leq u, \\
+%					f_i(\bo{x}) \leq 0,  \ i \geq 2 \\
+%					h_j(\bo{x}) = 0.
+%				\end{cases}
+%			\end{aligned}
+%		\end{equation}
+%		
+%		The optimal cost to the unperturbed problem is $f_0$, of the perturbed problem - $f_0 + \delta f$.
+%		
+%		This means that one of the complementarity slackness constraints takes form:
+%		%
+%		\begin{align}
+%			\lambda_1 (f_1(\bo{x}) - u) = 0
+%		\end{align}
+%		
+%		Consider Lagrangian:
+%		%
+%		\begin{align*}
+%		L = f_0 + \delta f + 
+%		\lambda_1 (f_1-u )+
+%			\sum\limits_{i=2}^N \lambda_i f_i+
+%			\sum\limits_j \nu_j h_j
+%		\end{align*}
+%		
+%	\end{flushleft}
+%\end{frame}
 
 
 

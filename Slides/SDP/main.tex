@@ -4,7 +4,7 @@
 
 
 \title{Semidefinite Programming}
-\subtitle{Computational Intelligence, Lecture 9}
+\subtitle{Computational Intelligence, Lecture 10}
 \author{by Sergei Savin}
 \centering
 \date{\mydate}
@@ -118,7 +118,7 @@ Sometimes it is easier to directly think of semidefinite matrices as of decision
 \end{aligned}
 \end{equation}
 
-where cost and constraints should adhere to SDP limitations.
+where cost and constraints should adhere to the SDP limitations.
 
 \end{flushleft}
 \end{frame}
@@ -258,7 +258,7 @@ where cost and constraints should adhere to SDP limitations.
 
 
 
-\begin{frame}{Schur compliment, 1}
+\begin{frame}{Schur compliment}
 	%	\framesubtitle{Part 1}
 	\begin{flushleft}
 		
@@ -292,76 +292,6 @@ where cost and constraints should adhere to SDP limitations.
 \end{frame}
 
 
-
-\begin{frame}{Schur compliment, 2}
-	%	\framesubtitle{Part 1}
-	\begin{flushleft}
-		
-		Let us prove that $\bo{M} \succ 0$ iff $\bo{A} \succ 0$ and $\bo{C} - \bo{B}^\top\bo{A}^{-1}\bo{B} \succ 0$.
-		
-		\bigskip
-		
-		First we prove that $\bo{A} \succ 0$ and $\bo{C} - \bo{B}^\top\bo{A}^{-1}\bo{B} \succ 0$ implies $\bo{M} \succ 0$. We need to prove that the following quadratic form is positive definite:
-		%
-		\begin{align}
-			f = 
-			\begin{bmatrix}
-				\bo{x}\T & 
-				\bo{y}\T
-			\end{bmatrix}
-			\begin{bmatrix}
-				\bo{A} & \bo{B} \\
-				\bo{B}^\top & \bo{C}
-			\end{bmatrix}
-			\begin{bmatrix}
-			\bo{x} \\ 
-			\bo{y}
-			\end{bmatrix} = \\
-			= 
-			\bo{x}\T \bo{A}\bo{x} + \bo{x}\T \bo{B} \bo{y} + \bo{y}\T \bo{B}\T \bo{x} + \bo{y}\T \bo{C} \bo{y}  
-		\end{align}
-		
-		Since $\bo{C} - \bo{B}^\top\bo{A}^{-1}\bo{B} \succ 0$, the following quadratic form is positive-definite:
-		%
-		\begin{align}
-			\bo{y}\T (\bo{C} - \bo{B}^\top\bo{A}^{-1}\bo{B} ) \bo{y} > 0
-		\end{align}
-		
-		
-		
-	\end{flushleft}
-\end{frame}
-
-
-\begin{frame}{Schur compliment, 3}
-	%	\framesubtitle{Part 1}
-	\begin{flushleft}
-		
-		We define a change of variables $\bo{x} = - \frac{1}{2} \bo{A}^{-1}\bo{B} \bo{y}$, giving us two equations:
-		
-		\begin{align}
-			\bo{y}\T\bo{C}\bo{y}  + 2 \bo{x}\T\bo{B} \bo{y} > 0 \\
-			\bo{y}\T\bo{C}\bo{y}  + 2 \bo{y}\T\bo{B}^\top \bo{x} > 0 
-		\end{align}
-		
-		Their sum gives us: 
-		
-		\begin{align}
-			2 \bo{y}\T\bo{C}\bo{y}  + 2 \bo{x}\T\bo{B} \bo{y} + 2 \bo{y}\T\bo{B}^\top \bo{x} > 0 \\
-			\bo{y}\T\bo{C}\bo{y}  + \bo{x}\T\bo{B} \bo{y} + \bo{y}\T\bo{B}^\top \bo{x} > 0
-		\end{align}
-		
-		Since $\bo{A} \succ 0$ we conclude that:
-		
-		\begin{align}
-			 \bo{x}\T\bo{A}  \bo{x} +
-			\bo{y}\T\bo{C}\bo{y}  + \bo{x}\T\bo{B} \bo{y} + \bo{y}\T\bo{B}^\top \bo{x} > 0
-		\end{align}
-		
-		This finishes first part of the proof.
-		
-	\end{flushleft}
-\end{frame}
 
 
 
@@ -676,6 +606,77 @@ Implement both examples from page 2 of the \href{http://stanford.edu/class/ee363
 
 
 
+
+
+\begin{frame}{Schur compliment, proof, 1}
+	%	\framesubtitle{Part 1
+		\begin{flushleft}
+			
+			Let us prove that $\bo{M} \succ 0$ iff $\bo{A} \succ 0$ and $\bo{C} - \bo{B}^\top\bo{A}^{-1}\bo{B} \succ 0$.
+			
+			\bigskip
+			
+			First we prove that $\bo{A} \succ 0$ and $\bo{C} - \bo{B}^\top\bo{A}^{-1}\bo{B} \succ 0$ implies $\bo{M} \succ 0$. We need to prove that the following quadratic form is positive definite:
+			%
+			\begin{align}
+				f = 
+				\begin{bmatrix}
+					\bo{x}\T & 
+					\bo{y}\T
+				\end{bmatrix}
+				\begin{bmatrix}
+					\bo{A} & \bo{B} \\
+					\bo{B}^\top & \bo{C}
+				\end{bmatrix}
+				\begin{bmatrix}
+					\bo{x} \\ 
+					\bo{y}
+				\end{bmatrix} = \\
+				= 
+				\bo{x}\T \bo{A}\bo{x} + \bo{x}\T \bo{B} \bo{y} + \bo{y}\T \bo{B}\T \bo{x} + \bo{y}\T \bo{C} \bo{y}  
+			\end{align}
+			
+			Since $\bo{C} - \bo{B}^\top\bo{A}^{-1}\bo{B} \succ 0$, the following quadratic form is positive-definite:
+			%
+			\begin{align}
+				\bo{y}\T (\bo{C} - \bo{B}^\top\bo{A}^{-1}\bo{B} ) \bo{y} > 0
+			\end{align}
+			
+			
+			
+		\end{flushleft}
+	\end{frame}
+	
+	
+	\begin{frame}{Schur compliment, proof, 2}
+		%	\framesubtitle{Part 1}
+		\begin{flushleft}
+			
+			We define a change of variables $\bo{x} = - \frac{1}{2} \bo{A}^{-1}\bo{B} \bo{y}$, giving us two equations:
+			
+			\begin{align}
+				\bo{y}\T\bo{C}\bo{y}  + 2 \bo{x}\T\bo{B} \bo{y} > 0 \\
+				\bo{y}\T\bo{C}\bo{y}  + 2 \bo{y}\T\bo{B}^\top \bo{x} > 0 
+			\end{align}
+			
+			Their sum gives us: 
+			
+			\begin{align}
+				2 \bo{y}\T\bo{C}\bo{y}  + 2 \bo{x}\T\bo{B} \bo{y} + 2 \bo{y}\T\bo{B}^\top \bo{x} > 0 \\
+				\bo{y}\T\bo{C}\bo{y}  + \bo{x}\T\bo{B} \bo{y} + \bo{y}\T\bo{B}^\top \bo{x} > 0
+			\end{align}
+			
+			Since $\bo{A} \succ 0$ we conclude that:
+			
+			\begin{align}
+				\bo{x}\T\bo{A}  \bo{x} +
+				\bo{y}\T\bo{C}\bo{y}  + \bo{x}\T\bo{B} \bo{y} + \bo{y}\T\bo{B}^\top \bo{x} > 0
+			\end{align}
+			
+			This finishes first part of the proof.
+			
+		\end{flushleft}
+	\end{frame}
 
 
 

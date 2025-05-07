@@ -3,7 +3,8 @@
 \input{settings.tex}
 
 
-\title{Mixed Integer Convex Programming}
+
+\title{Mixed-Integer Convex Programming}
 \subtitle{Computational Intelligence, Lecture 12}
 \author{by Sergei Savin}
 \centering
@@ -106,6 +107,32 @@ x_{m+1}, ..., x_n \in \mathbb{N}. &\ \ \ \ \textcolor{mylightgray}{\text{integer
 
 
 
+
+
+\begin{frame}{Branch and bound}
+	% \framesubtitle{General form}
+	\begin{flushleft}
+		
+		Branch and bound is searches for the nest solution by solving a series of convex optimization problems.
+		
+		{\small
+		\begin{enumerate}
+			\item We start by relaxing all binary variables $z_1$, $z_2$, ... to real numbers on the interval $0 \leq z_i \leq 1$. We solve the resulting convex problem and obtain node cost $c$.
+			
+			\item We grow 2 branches by fixing one of the $z_i$ to be $z_i = 0$ for one branch and $z_i = 1$ for another. For each feasible branch we find node cost.
+			
+			\item The minimal node cost among nodes without branches is the current lower bound on the optimal cost (we cannot do better than that by growing more branches / fixing more $z_i$).
+			
+			\item The minimal node cost among nodes with all $z_i$ fixed is the current upper bound (the optimal solution will have to be at least as good as that).
+			
+			\item The gap between lower and upper bounds becomes smaller as the algorithm progresses; it can be used to terminate the procedure.
+		\end{enumerate}}
+		
+	\end{flushleft}
+\end{frame}
+
+
+
 \begin{frame}{Example: Footstep planning}
 \framesubtitle{Problem statement}
 \begin{flushleft}
@@ -140,7 +167,7 @@ One of the key methods associated with the use of mixed-integer programming in r
 
 \bigskip
 
-Assume you have two inequalities, $\mathbf{a}_1^\top \mathbf{x} \leq b_1$ and $\mathbf{a}_2^\top \mathbf{x} \leq b_2$, and you are happy if at least one of them holds. Define a new binary variables $c_1, c_2 \in \{0, \ 1 \}$ and find a big enough constant $M$, such that $\mathbf{a}_1^\top \mathbf{x} \leq b_1 + M$ and $\mathbf{a}_2^\top \mathbf{x} \leq b_2 + M$ holds for all of your domain (of the part of it you are interested in).
+Assume you have two inequalities, $\mathbf{a}_1^\top \mathbf{x} \leq b_1$ and $\mathbf{a}_2^\top \mathbf{x} \leq b_2$, and you are happy if at least one of them holds. Define new binary variables $c_1, c_2 \in \{0, \ 1 \}$ and find a big enough constant $M$, such that $\mathbf{a}_1^\top \mathbf{x} \leq b_1 + M$ and $\mathbf{a}_2^\top \mathbf{x} \leq b_2 + M$ holds for all of your domain (of the part of it you are interested in).
 
 
 

@@ -4,7 +4,7 @@
 
 
 \title{Second-order cone programming}
-\subtitle{Computational Intelligence, Lecture 8}
+\subtitle{Computational Intelligence, Lecture 9}
 \author{by Sergei Savin}
 \centering
 \date{\mydate}
@@ -252,6 +252,33 @@ Same for ellipsoidal constraints:
 \end{equation}
  
 \end{flushleft}
+\end{frame}
+
+
+
+
+\begin{frame}{Example - path planning}
+	\begin{flushleft}
+		
+		Consider a path planning problem: find a sequence of points $\bo{x}_i$ starting at $\bo{x}_0$, making a shortest path to the goal point $\bo{x}_g$, such that neightbouring points are no further than $h$ from one another.
+		
+		\bigskip
+		
+		\textbf{Solution}. 
+		The problem becomes:
+		
+		
+		%
+		\begin{equation}
+			\begin{aligned}
+				& \underset{\bo{x}_1, ..., \bo{x}_n}{\text{minimize}}
+				& & \sum_{i = 1}^{n} (\bo{x}_i - \bo{x}_g)\T (\bo{x}_i - \bo{x}_g), \\
+				& \text{subject to}
+				& &||\bo{x}_i - \bo{x}_{i+1} || < h, \ \ i \in {0, 1, 2, ...., n}
+			\end{aligned}
+		\end{equation}
+		
+	\end{flushleft}
 \end{frame}
 
 

@@ -22,10 +22,6 @@
 	\item Barrier functions
 	\item Interior point method
 	\item Analytic center of linear inequalities
-%\item Lagrange dual function
-%\item Duality gap, strong and weak duality
-%\item Sensitivity
-%\item Homework
 \end{itemize}
 
 \end{frame}
@@ -149,7 +145,7 @@
 			x_{i+1} = x_i  - \left ( \frac{\partial^2 \varphi}{\partial x^2} \right )^{-1} \frac{\partial \varphi}{\partial x}
 		\end{equation}
 		
-		Using previously defined variables $g =\frac{\partial \varphi}{\partial x}$ and $H = \frac{\partial^2 \varphi}{\partial x^2}$ we obtain the same expression we saw in sequatial quadratic approximation:
+		Using previously defined variables $g =\frac{\partial \varphi}{\partial x}$ and $H = \frac{\partial^2 \varphi}{\partial x^2}$ we obtain the same expression we saw in the sequential quadratic approximation:
 		%
 		\begin{equation}
 			x_{i+1} = x_i  - H^{-1} g
@@ -174,7 +170,7 @@
 			+ \text{h.o.t.},
 		\end{equation}
 		
-		Solution to the quadratic approxamation is given as:
+		Solution to the quadratic approximation is given as:
 		
 		\begin{align}
 			\bo{x}_{i+1} &= \bo{x}_i  - \bo{H}^{-1} \bo{g}
@@ -201,7 +197,7 @@
 		
 		\bigskip
 		
-		Linear equalities in convex programs can often be excluded by introducing new variables in the null space of the constraints.
+		Linear equalities in convex programs can often be excluded by introducing new variables.
 		
 		\bigskip
 		
@@ -300,7 +296,7 @@ Hence the following QP:
 	% \framesubtitle{General form}
 	\begin{flushleft}
 		
-		Zero-infinity function can be seen as a precise barrier - adding nothing to teh cost in the domain interior and punishing constraint violation by infinite increase of cost:
+		Zero-infinity function can be seen as a precise barrier - adding nothing to the cost in the domain interior and punishing constraint violation by infinite increase of cost:
 		
 		\begin{equation}
 		f(x) = 
@@ -392,7 +388,7 @@ Hence the following QP:
 			= -\frac{t}{g(\bo{x})} \frac{\partial g(\bo{x})}{\partial \bo{x}} 
 		\end{align}
 		
-		With that, we can re-write the lagrangain conndition:
+		With that, we can re-write the lagrangain condition:
 		%
 		\begin{equation}
 			\frac{\partial f_0(\bo{x})}{\partial \bo{x}} 
@@ -455,11 +451,11 @@ Hence the following QP:
 		
 		\bigskip
 		
-		The sequence of $\bo{x}^*$ resulting from this iterative process iis called \emph{central path}. 
+		The sequence of $\bo{x}^*$ resulting from this iterative process is called \emph{central path}. 
 		
 		\bigskip
 		
-		As $t_i$ approaches zero, the log barriers $t_i \log (- g_i (\bo{x}))$ show less and less influence on the position of the optimzal solution, allowing us to approximate the solution to the original problem more and more accurately.
+		As $t_i$ approaches zero, the log barriers $t_i \log (- g_i (\bo{x}))$ show less and less influence on the position of the optimal solution, allowing us to approximate the solution to the original problem more and more accurately.
 		
 	\end{flushleft}
 \end{frame}
